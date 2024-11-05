@@ -7,6 +7,6 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p}}
-        <button type="sumbit">Log In</button>
+        <button class="btn btn-success ml-2" type="sumbit">Log In</button>
     </form>
 {% endblock content %}
