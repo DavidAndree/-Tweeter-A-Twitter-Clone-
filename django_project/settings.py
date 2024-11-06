@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     #Local First Party
     "accounts.apps.AccountsConfig",
     "pages.apps.PagesConfig",
+    "tweeter.apps.TweeterConfig"
 ]
 
 MIDDLEWARE = [
