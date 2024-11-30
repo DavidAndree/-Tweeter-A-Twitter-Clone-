@@ -1,0 +1,36 @@
+<!-- 
+David Alvarado
+Cis 218
+11/05/24
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Delete Twit{% endblock title %}
+
+{% block content %}
+<br>
+<h2 class="text-center mb-4">Are you sure you want to delete this Twit?</h2>
+<div class="container my-5">
+    <div class="d-flex align-items-center mb-4">
+        <img src="{{ object.author.profile_picture_url|default:'https://via.placeholder.com/100' }}" 
+             alt="Profile Picture" class="rounded-circle me-3" style="width: 100px; height: 100px;">
+        <div>
+            <h4>{{ object.author.username }}</h4>
+            <small class="text-muted">Posted {{ object.created|date:"F d, Y H:i" }}</small>
+        </div>
+    </div>
+
+    <p>{{ object.body }}</p>
+    {% if object.image_url %}
+    <img src="{{ object.image_url }}" class="img-fluid rounded mb-3" alt="Twit Image"
+        style="max-width: 300px;">
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock content %}

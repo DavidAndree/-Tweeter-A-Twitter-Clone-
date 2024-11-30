@@ -1,3 +1,9 @@
+"""
+David Alvarado
+Cis 218
+11/05/24
+"""
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 

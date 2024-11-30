@@ -1,0 +1,68 @@
+<!-- 
+David Alvarado
+Cis 218
+11/05/24
+-->
+
+{% extends "base.html" %}
+
+{% block title %}{{ profile_user.username }}'s Profile{% endblock title %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="d-flex align-items-center mb-4">
+        <img src="{{ profile_user.profile_picture_url|default:'https://via.placeholder.com/100' }}" 
+             alt="Profile Picture" class="rounded-circle me-3" style="width: 100px; height: 100px;">
+        <div>
+            <h1>{{ profile_user.username }}</h1>
+            <p>
+                <i class="bi bi-envelope"></i> {{ profile_user.email }}<br>
+                <i class="bi bi-calendar"></i> Joined {{ profile_user.date_joined|date:"F d, Y" }}
+            </p>
+            <p><i class="bi bi-twitter"></i> Twits: {{ twits.count }}</p>
+        </div>
+    </div>
+
+    
+    <h2>{{ profile_user.username }}'s Twits</h2>
+    {% for twit in twits %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <!-- Twit Content -->
+                <p>{{ twit.body }}</p>
+                {% if twit.image_url %}
+                    <img src="{{ twit.image_url }}" class="img-fluid rounded" alt="Twit Image" style="max-width: 300px;">
+                {% endif %}
+                <small class="text-muted">Posted {{ twit.created|timesince }} ago</small>
+
+              
+                <div class="mt-2">
+                    {% if user == profile_user %}
+                        <!-- Edit and Delete Buttons -->
+                        <a href="{% url 'tweeter:twit-edit' twit.pk %}" class="btn btn-sm btn-primary me-2">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <a href="{% url 'tweeter:twit-delete' twit.pk %}" class="btn btn-sm btn-danger me-2">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    {% endif %}
+                    <!-- Comment and Like Buttons -->
+                    <a href="{% url 'tweeter:comment-create' twit.pk %}" class="btn btn-sm btn-primary me-2">
+                        <i class="bi bi-chat-left-dots"></i> Comment
+                    </a>
+                    <button 
+                        class="btn btn-sm btn-danger like_button" 
+                        data-id="{{ twit.id }}" 
+                        data-action="like" 
+                        data-like_url="{% url 'tweeter:like-twit' twit.id %}">
+                        <i class="bi bi-hand-thumbs-up"></i>
+                        <span class="like_count">{{ twit.likes.count }}</span> Like
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">This user has no Twits yet.</p>
+    {% endfor %}
+</div>
+{% endblock content %}

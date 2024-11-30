@@ -1,0 +1,27 @@
+<!-- 
+David Alvarado
+Cis 218
+11/05/24
+-->
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Change Your Profile{% endblock title %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="mb-4">Change Your Profile</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <!-- Form Buttons -->
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <a href="{% url 'password_reset' %}" class="btn btn-primary">Change Password</a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

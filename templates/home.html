@@ -1,15 +1,97 @@
-{% extends "base.html" %}
+<!-- 
+David Alvarado
+Cis 218
+11/05/24
+-->
 
-{% block title %} Home {% endblock title %}
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Tweeter Feed{% endblock title %}
 
 {% block content %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Tweeter Feed</h1>
+        <a href="{% url 'tweeter:twit-create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> New Twit
+        </a>
+    </div>
 
-    {% if user.is_authenticated %}
-        Hi {{user.username }}! You are {{user.age}} years old.
-        <p> <a href="{% url 'logout' %}">Logout </a></p>
-    {% else %}
-    <p> You are not logged in</p>
-    <a href="{% url 'login' %}">Login</a> |
-    <a href="{% url 'signup' %}">Sign Up</a>
-    {% endif %}
-{% endblock content %} 
+    {% for twit in twits %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <!-- User Info -->
+                    <div class="d-flex align-items-center">
+                        <img src="{{ twit.author.profile_picture_url|default:'https://via.placeholder.com/40' }}" 
+                             alt="Profile Picture" class="rounded-circle me-2">
+                        <div>
+                            <a href="{% url 'tweeter:public-profile' twit.author.pk %}" class="fw-bold text-decoration-none">
+                                {{ twit.author.username }}
+                            </a>
+                            <small class="text-muted">{{ twit.created|timesince }} ago</small>
+                        </div>
+                    </div>
+                    
+                    <!-- Edit and Delete Buttons -->
+                    {% if twit.author == user %}
+                        <div>
+                            <a href="{% url 'tweeter:twit-edit' twit.pk %}" class="btn btn-sm btn-primary me-2">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                            <a href="{% url 'tweeter:twit-delete' twit.pk %}" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Twit Content -->
+                <p>{{ twit.body }}</p>
+                {% if twit.image_url %}
+                <img src="{{ twit.image_url }}" class="img-fluid rounded" alt="Twit Image"
+                     style="max-width: 300px;">
+                {% endif %}
+
+                <!--  Buttons -->
+                <div class="d-flex align-items-center mt-2">
+                    <a href="{% url 'tweeter:comment-create' twit.id %}" class="btn btn-sm btn-primary me-2">
+                        <i class="bi bi-chat-left-dots"></i> Add Comment
+                    </a>
+                    <button 
+                        class="btn btn-sm btn-danger like_button" 
+                        data-id="{{ twit.id }}" 
+                        data-action="like" 
+                        data-like_url="{% url 'tweeter:like-twit' twit.id %}">
+                        <i class="like_icon bi bi-hand-thumbs-up"></i>
+                        <span class="like_count">{{ twit.likes.count }}</span> Like
+                    </button>
+                </div>
+
+                <!-- Comments Section -->
+                <hr>
+                <h6>Comments:</h6>
+                {% for comment in twit.comments.all|slice:":3" %}
+                    <div class="mb-2">
+                        <strong>{{ comment.author.username }}</strong>: {{ comment.body }}
+                        <br>
+                        <small class="text-muted">{{ comment.created|timesince }} ago</small>
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No comments yet.</p>
+                {% endfor %}
+
+                <!-- Show More Comments Button -->
+                {% if twit.comments.count > 3 %}
+                    <a href="{% url 'tweeter:comment-create' twit.id %}" class="btn btn-sm btn-primary mt-2">
+                        <i class="bi bi-three-dots"></i> Show More Comments ({{ twit.comments.count }})
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No Twits yet. Start by creating a new one!</p>
+    {% endfor %}
+</div>
+{% endblock content %}

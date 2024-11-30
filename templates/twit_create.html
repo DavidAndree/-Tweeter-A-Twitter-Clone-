@@ -1,0 +1,23 @@
+<!-- 
+David Alvarado
+Cis 218
+11/05/24
+-->
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}New Twit{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">New Twit</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Create Twit</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

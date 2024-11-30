@@ -1,13 +1,25 @@
+<!-- 
+David Alvarado
+Cis 218
+11/05/24
+-->
+
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block title %}   Sign Up {% endblock title %}
+{% block title %}Sign Up{% endblock title %}
 
 {% block content %}
-    <h2>Sign Up </h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form | crispy }}
-        <button class="btn btn-success" type="sumbit">Sign Up</button>
-    </form>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">Sign Up</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock content %}

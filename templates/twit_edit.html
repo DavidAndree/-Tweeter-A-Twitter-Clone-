@@ -1,0 +1,24 @@
+<!-- 
+David Alvarado
+Cis 218
+11/05/24
+-->
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Twit{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Edit Twit</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+    </form>
+    <a href="{% url 'tweeter:twit-list' %}" class="btn btn-outline-secondary mt-3">Cancel</a>
+</div>
+{% endblock content %}

@@ -137,3 +137,12 @@ https://getbootstrap.com/docs/5.3/getting-started/introduction/
 
 ## Known Problems, Issues, And/Or Errors in the Program
 
+Im aware of the following problems:
+
+    Profile (Save Changes Button) ---- Now working as intended, but stills fetches the data?
+
+    Password Reset (I wasn't able to use the email backend correctly, but still had the all password reset pages)
+
+    (Liking a twit without login in shows a error)
+
+    2 of my test don't pass really don't know why

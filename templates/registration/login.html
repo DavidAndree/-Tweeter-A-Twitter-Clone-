@@ -1,12 +1,33 @@
+<!-- 
+David Alvarado
+Cis 218
+11/05/24
+-->
+
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %} Login {% endblock title %}
 
 {% block content %}
-    <h2>Login</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p}}
-        <button class="btn btn-success ml-2" type="sumbit">Log In</button>
-    </form>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">Sign In</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }} 
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+            </div>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'password_reset' %}" class="d-block text-decoration-none">Forgotten your password?</a>
+            <a href="{% url 'signup' %}" class="d-block text-decoration-none">Register a new account?</a>
+        </div>
+        <footer class="text-center mt-4">
+            <p class="text-muted mb-0">&copy; 2022</p>
+        </footer>
+    </div>
+</div>
 {% endblock content %}
