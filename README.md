@@ -145,4 +145,4 @@ Im aware of the following problems:
 
     (Liking a twit without login in shows a error)
 
-    2 of my test don't pass really don't know why
+    2 of my test don't pass really don't know why.
